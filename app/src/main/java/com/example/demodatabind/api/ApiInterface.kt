@@ -1,5 +1,6 @@
 package com.example.demodatabind.api
 
+import com.example.demodatabind.model.DataFromApi
 import com.example.demodatabind.model.Post
 import com.example.demodatabind.model.Post1
 import com.example.demodatabind.modelForJsonPlaceHolderApi.PostData
@@ -24,6 +25,13 @@ interface ApiInterface {
         @Query("page") pageNo: Int
     ): Call<Post>
 
+//    @FormUrlEncoded
+    @POST("/api/users")
+    fun postData(
+        @Body data: DataFromApi
+//        @Field("data") data: DataFromApi
+    ): Call<DataFromApi>
+
     // https://jsonplaceholder.typicode.com/comments?postId=2&_sort=id&_order=desc
     @GET("/comments")
     fun getCustompage2(
@@ -42,5 +50,14 @@ interface ApiInterface {
     @POST("/posts")
     fun pushPost(
         @Body post: PostData
+    ): Call<PostData>
+
+    @FormUrlEncoded
+    @POST("/posts")
+    fun pushPost1(
+        @Field("userId") userId: Int,
+        @Field("id") id: Int,
+        @Field("title") title: String,
+        @Field("body") body: String
     ): Call<PostData>
 }

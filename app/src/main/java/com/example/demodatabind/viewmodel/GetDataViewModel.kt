@@ -27,6 +27,8 @@ class GetDataViewModel(application: Application) : BaseViewModel(application)  {
     var myResponse2: MutableLiveData<Post> = MutableLiveData<Post>()
     var myResponse3: MutableLiveData<List<PostData>> = MutableLiveData<List<PostData>>()
     var myResponse4: MutableLiveData<PostData> = MutableLiveData<PostData>()
+    var myResponse5: MutableLiveData<PostData> = MutableLiveData<PostData>()
+    var myResponse6: MutableLiveData<DataFromApi> = MutableLiveData<DataFromApi>()
 
     fun setbinder(binder: ActivityMainBinding){
         data = Data()
@@ -63,8 +65,11 @@ class GetDataViewModel(application: Application) : BaseViewModel(application)  {
             options.put("_sort","id")
             options.put("_order","desc")
             getCustomPage1(pageNo,options)
-            var postdata: PostData = PostData(2,150,"kartum","kartum@gmail.com","Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
+            var postdata: PostData = PostData(2,150,"kartum","Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
             pushPost(postdata)
+            pushPost2(2,2,"kartum","Android")
+            var d = DataFromApi(10,"krish","fname","lname","avtar")
+            postData(d)
         }
     }
 
@@ -126,9 +131,24 @@ class GetDataViewModel(application: Application) : BaseViewModel(application)  {
         myResponse4 = Repository().pushPost(post)
         myResponse4.observeForever {
             Log.d("IT",it.toString())
-            Toast.makeText(context,it.toString(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,it.toString()+ 1.toString(),Toast.LENGTH_SHORT).show()
         }
     }
 
-    
+    fun pushPost2(userId: Int,id: Int,title: String,body: String){
+        myResponse5 = Repository().pushPost1(userId, id, title, body)
+        myResponse5.observeForever {
+            Log.d("IT1",it.toString())
+            Toast.makeText(context,it.toString()+ 2.toString(),Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun postData(post: DataFromApi){
+        myResponse6 = Repository().postData(post)
+        myResponse6.observeForever {
+            Log.d("VMData",it.toString())
+            Toast.makeText(context,it.toString()+ 3.toString(),Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }

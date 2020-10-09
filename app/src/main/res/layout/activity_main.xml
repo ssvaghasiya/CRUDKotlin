@@ -36,6 +36,8 @@
         <variable
             name="custompage1"
             type="com.example.demodatabind.modelForJsonPlaceHolderApi.PostData" />
+
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -127,6 +129,7 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="@{custompage1.toString()}" />
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

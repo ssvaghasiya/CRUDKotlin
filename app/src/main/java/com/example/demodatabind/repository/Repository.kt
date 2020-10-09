@@ -1,15 +1,19 @@
 package com.example.demodatabind.repository
 
+import android.R
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.demodatabind.api.RetrofitInstance
 import com.example.demodatabind.api.RetrofitInstance1
+import com.example.demodatabind.model.Data
+import com.example.demodatabind.model.DataFromApi
 import com.example.demodatabind.model.Post
 import com.example.demodatabind.model.Post1
 import com.example.demodatabind.modelForJsonPlaceHolderApi.PostData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class Repository {
 
@@ -121,9 +125,9 @@ class Repository {
                 override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
                     if(response.isSuccessful){
                         getResponse.value = response.body()
-                        Log.d("Postdata",response.body().toString())
-                        Log.d("Postdata",response.code().toString())
-                        Log.d("Postdata",response.message().toString())
+                        Log.d("PostdataBody",response.body().toString())
+                        Log.d("PostdataRCode",response.code().toString())
+                        Log.d("PostdataMsg",response.message().toString())
                     }
                 }
 
@@ -134,4 +138,47 @@ class Repository {
 
         return getResponse
     }
+
+    fun pushPost1(userId: Int,id: Int,title: String,body: String): MutableLiveData<PostData> {
+        val getResponse = MutableLiveData<PostData>()
+
+        RetrofitInstance1.api.pushPost1(userId, id, title, body)
+            .enqueue(object : Callback<PostData>{
+                override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
+                    if(response.isSuccessful){
+                        getResponse.value = response.body()
+                        Log.d("ResponseCode",response.code().toString())
+                        Log.d("ResponseMsg",response.message().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<PostData>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        return getResponse
+    }
+
+    fun postData(postdata: DataFromApi): MutableLiveData<DataFromApi>{
+        val getResponse = MutableLiveData<DataFromApi>()
+
+        RetrofitInstance.api.postData(postdata)
+            .enqueue(object : Callback<DataFromApi>{
+                override fun onResponse(call: Call<DataFromApi>, response: Response<DataFromApi>) {
+                    if(response.isSuccessful){
+                        getResponse.value = response.body()
+                        Log.d("REQResponse",response.body().toString())
+                        Log.d("REQCode",response.code().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<DataFromApi>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        return getResponse
+    }
+
 }
